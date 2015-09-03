@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en" charset="utf-8">
+<head>
+    <meta charset="UTF-8">
+    <title>avalonTest</title>
+    <script data-main="js/main" src="js/require.js"></script>
+    <script src="js/avalonTest.js"></script>
+
+    <link rel="stylesheet" href="css/css/zui.css"/>
+    <style type="text/css">
+        table thead th,table tbody td{text-align: center;}
+    </style>
+</head>
+<body>
+<div id="avalonTest" ms-controller="test">
+    <select id="" ms-duplex="value.dataselected">
+        <option ms-repeat="datasource">{{el}}</option>
+    </select>
+    {{value.dataselected}}
+    <table class="table table-hover table-stripped tabel-bordered">
+        <thead>
+            <tr>
+                <th>
+                    <div class="col-md-12 text-center"><input type="checkbox" ms-click="checkAll"/>全选</div></th>
+                <th>姓名</th>
+                <th>性别</th>
+                <th>年龄</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ms-repeat="datasource2">
+                <td>
+                    <div class="col-md-12 text-center"><input ms-duplex-string="dataselected" ms-click="toggle($index)" ms-attr-value="el.name" type="checkbox"/></div></td>
+                <td>{{el.name}}</td>
+                <td>{{el.gender}}</td>
+                <td>{{el.age}}</td>
+                <td><button class="btn btn-primary" ms-click="remove($index)"><i class="icon icon-times"></i>&nbsp;删除</button>
+                    <button class="btn btn-primary"><i class="icon icon-cog"></i>&nbsp;编辑</button></td>
+            </tr>
+
+        </tbody>
+    </table>
+    <div class="form-inline">
+        <button class="btn btn-primary"><i class="icon icon-times"></i>&nbsp;批量删除</button>
+        当前选中：{{dataselected}}
+    </div>
+    <table class="table table-hover table-stripped tabel-bordered">
+        <thead>
+            <tr>
+                <th>用户名</th>
+                <th>邮箱</th>
+                <th>电话</th>
+                <th>手机</th>
+                <th>性别</th>
+                <th>年龄</th>
+                <th>套餐</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><input ms-duplex="userModel.name"></td>
+            <td><input ms-duplex="userModel.email"></td>
+            <td><input ms-duplex="userModel.phone"></td>
+            <td><input ms-duplex="userModel.cellphone"></td>
+            <td><input ms-duplex="userModel.gender" type="radio" name="gender"></td>
+            <td><input ms-duplex="userModel.age"></td>
+            <td><input ms-duplex="userModel.packages"></td>
+            <td><button class="btn btn-primary" ms-click="makeInfo"><i class="icon icon-cog"></i>&nbsp;生成随机测试信息</button>
+                <!--<button class="btn btn-primary"><i class="icon icon-cog"></i>&nbsp;编辑</button>-->
+            </td>
+        </tr>
+
+        </tbody>
+    </table>
+
+    <table>
+        <tr>
+            <td><button class="btn btn-primary" ms-click="addControl">新增</button></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr ms-repeat="inputControl">
+            <td><input type="text" ms-attr-name="{{'name'+$index}}"  ms-keyup="modifyIntrolModel($index)"/></td>
+            <td><input type="text" ms-attr-name="{{'city'+$index}}"  ms-keyup="modifyIntrolModel($index)"/></td>
+            <td></td>
+        </tr>
+    </table>
+</div>
+</body>
+</html>

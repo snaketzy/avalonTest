@@ -1,0 +1,107 @@
+/**
+ * Created by Jerry on 2015/8/29.
+ */
+require(["jquery","avalon","underscore"],function(){
+    avalon.ready(function(){
+        console.log("当前的全选状态为："+$(this).attr("checked"));
+        var model = avalon.define({
+            $id :"test",
+            //测试数据定义
+            testData:{
+                username:"abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ赵钱孙李周吴郑王",
+                gender:["男","女"],
+                packages:[""]
+            },
+            //绑定模型
+            userModel:{
+                name:"",
+                email:"",
+                phone:null,
+                cellphone:null,
+                gender:"",
+                age:null,
+                packages:[]
+            },
+            value:{
+                dataselected:"懂"
+            },
+            datasource:["懂","男","喜"],
+            datasource2:[
+                {name:"测试1",gender:"男",age:10},
+                {name:"测试2",gender:"女",age:11},
+                {name:"测试3",gender:"男",age:22},
+                {name:"测试4",gender:"男",age:10},
+                {name:"测试5",gender:"女",age:11},
+                {name:"测试6",gender:"男",age:22},
+                {name:"测试7",gender:"男",age:10},
+                {name:"测试8",gender:"女",age:11},
+                {name:"测试9",gender:"男",age:22},
+                {name:"测试10",gender:"男",age:10}
+                //{name:"测试11",gender:"女",age:11},
+                //{name:"测试12",gender:"男",age:22},
+                //{name:"测试13",gender:"男",age:10},
+                //{name:"测试14",gender:"女",age:11},
+                //{name:"测试15",gender:"男",age:22}
+            ],
+            dataselected:[],
+            remove:function(e){
+                model.datasource2.splice(e,1);
+            },
+            toggle:function(index){
+                //console.log(model.datasource2[index].name);
+            },
+            checkAll:function(){
+                if($(this).attr("checked")==undefined){
+                    $(this).attr("checked","checked");
+                    $(this).parent().parent().parent().parent().siblings("tbody").find(":checkbox").attr("checked","checked");
+                    for(var i=0;i<model.datasource2.length;i++){
+                        if(!model.dataselected.contains(model.datasource2[i].name)){
+                            model.dataselected.push(model.datasource2[i].name);
+                        }
+                    }
+                }else{
+                    $(this).removeAttr("checked");
+                    $(this).parent().parent().parent().parent().siblings("tbody").find(":checkbox").removeAttr("checked");
+                    model.dataselected.clear();
+                }
+                console.log("当前的全选状态为："+$(this).attr("checked"));
+            },
+            //信息随机生成器
+            makeInfo:function(){
+                var dom = model;
+                require(["./module/randomInfo"],function(module){
+                    module.init(dom);
+                })
+            },
+            inputControl:[],
+            controlModel:{
+                name:"",
+                city:""
+            },
+            addControl:function(){
+                model.inputControl.push(_.clone(model.controlModel));
+            },
+            modifyIntrolModel:function(index){
+                if((eval("$(\"input[name=\'name"+index+"\']\").val()")!=""||eval("$(\"input[name=\'city"+index+"\']\").val()")!="")&&(model.inputControl[model.inputControl.size()-1].name!=""||model.inputControl[model.inputControl.size()-1].city!="")){
+                    //console.log("addable");
+                    model.inputControl.push(_.clone(model.controlModel));
+                }
+                //console.log(model.inputControl.size());
+                if($(this).val()==""&&$(this).parent().siblings().children("input").val()==""){
+                    model.inputControl.removeAt(index);
+                }else{
+                    model.inputControl[index].name=eval("$(\"input[name=\'name"+index+"\']\").val()");
+                    model.inputControl[index].city=eval("$(\"input[name=\'city"+index+"\']\").val()");
+                    //console.log(model.inputControl[index].name);
+                    //if(model.inputControl[index-1]){
+                    //    console.log(model.inputControl[index-1].name)
+                    //}
+                    //if(model.inputControl[index-2]){
+                    //    console.log(model.inputControl[index-2].name)
+                    //}
+                }
+            }
+        });
+        avalon.scan();
+    })
+});
